@@ -17,7 +17,7 @@ def compile_option(type):
     return "-O3 -funroll-all-loops -march=native -DNDEBUG `pkg-config --cflags --libs glib-2.0` -Wno-psabi -Wno-unused-function -Wno-unused-result -Wno-stringop-overflow -Wno-implicit-function-declaration"
 
 def main():
-    gh = open(Path(__file__).parents[3]/"token").readline()
+    gh = open(Path(__file__).parents[3]/"token").readline().rstrip()
     print(gh)
     type = ""
     if detect()["cpu_type"] in ["AMD", "Intel"]:
