@@ -29,13 +29,17 @@ def main():
     if not (impl_path/"common").exists():
         run(["git clone https://github.com/yukihito-hiraga/benchcommon.git"], shell=True, cwd = impl_path)
         run(["mv benchcommon common"], shell=True, cwd=impl_path)
+        
+    lines = []
     with open(impl_path/"Makefile") as f:
-        lines = []
         for l in f.readlines():
             if "FLAG=" in l:
-                lines.append(f"FLAG={compile_option(type)}")
+                lines.append(f"FLAG={compile_option(type)}\n")
             else:
                 lines.append(l)
+    with open(impl_path/"Makefile", "w") as f:
+        f.write("".join(lines))
+        
     run([f"./preprocess.sh {type}"], shell=True, cwd=impl_path/"common")
 
 if __name__=="__main__":
