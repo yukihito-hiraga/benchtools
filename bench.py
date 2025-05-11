@@ -113,15 +113,14 @@ def get_tscfreq_armlinux():
     return Mhz
 
 def get_tscfreq_asahi():
-    raw = run(["dmseg"], shell=True, capture_output=True, text=True).stdout
+    raw = run(["dmesg"], shell=True, capture_output=True, text=True).stdout
     Mhz = 0
-    for l in raw:
+    for l in raw.split("\n"):
         l = l.strip()
-        l = reduce(lambda s,x:s+x, l.split(":")[1:]).strip()
+        l = reduce(lambda s,x:s+x, l.split("]")[1:], "").strip()
         data = l.split(" ")
         sub = data[0]
-        if sub == "arch_timer":
-            print(data)
+        if sub == "arch_timer:":
             if data[1] == "cp15":
                 Mhz = float(data[5][:-3])
     return Mhz
@@ -164,4 +163,4 @@ def main():
         #run(["mv -f result/* {}".format(foldername)], shell=True)
         #run(["mv -f {} result/{}".format(foldername, foldername)], shell=True)
 
-main()
+# main()
