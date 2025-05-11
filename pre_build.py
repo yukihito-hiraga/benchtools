@@ -29,7 +29,7 @@ def main():
     data = load(open("setting.yml"), Loader=Loader)
     impl_path = Path(data["impl"])
     if not (impl_path/"common").exists():
-        run(["git clone https://{gh}@github.com/yukihito-hiraga/benchcommon.git"], shell=True, cwd = impl_path)
+        run([f"git clone https://{gh}@github.com/yukihito-hiraga/benchcommon.git"], shell=True, cwd = impl_path)
         run(["mv benchcommon common"], shell=True, cwd=impl_path)
         
     lines = []
