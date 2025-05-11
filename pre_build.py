@@ -8,11 +8,11 @@ except ImportError:
 from pathlib import Path
 
 def compile_option(type):
-    if "x64":
+    if type == "x64":
         return "-O3 -funroll-all-loops -march=native -DNDEBUG `pkg-config --cflags --libs glib-2.0` -Wno-psabi -Wno-unused-function -Wno-unused-result -Wno-stringop-overflow -Wno-implicit-function-declaration"
-    if "armlinux":
+    if type == "armlinux":
         return "-O3 -Wno-psabi -Wno-unused-function -Wno-unused-result -funroll-all-loops -march=native -DNDEBUG -Wno-stringop-overflow `pkg-config --cflags --libs glib-2.0` -Wno-discarded-qualifiers"
-    if "asahi":
+    if type == "asahi":
         return "-O3 -Wno-psabi -Wno-unused-function -Wno-unused-result -funroll-all-loops -march=native -mcpu=native -DNDEBUG -Wno-stringop-overflow `gtk-config --cflags --libs`"
     return "-O3 -funroll-all-loops -march=native -DNDEBUG `pkg-config --cflags --libs glib-2.0` -Wno-psabi -Wno-unused-function -Wno-unused-result -Wno-stringop-overflow -Wno-implicit-function-declaration"
 
@@ -37,6 +37,7 @@ def main():
                 lines.append(f"FLAG={compile_option(type)}\n")
             else:
                 lines.append(l)
+    print(lines)
     with open(impl_path/"Makefile", "w") as f:
         f.write("".join(lines))
         
