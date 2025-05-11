@@ -21,7 +21,11 @@ def detect():
 
 	if(os == "Linux"):
 		cpuinfo = run(["cat /proc/cpuinfo"], shell=True, capture_output=True, text=True).stdout
-		osname = run(["cat /etc/os-release"], shell=True, capture_output=True, text=True).stdout.split("\nNAME=")[1].split("\n")[0][1:-1]
+		tmp = {
+			l.split("=")[0]:l.split("=")[1][1:-1] if l.split("=")[1][0] == '"' and l.split("=")[1][-1] == '"' else l.split("=")[1]
+			for l in run(["cat /etc/os-release"], shell=True, capture_output=True, text=True).stdout.split("\n") if "=" in l
+		}
+		osname = tmp["NAME"]
 		if("AMD" in cpuinfo):
 			cpu = "AMD"
 		if("Intel" in cpuinfo):
