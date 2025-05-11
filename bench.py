@@ -107,7 +107,7 @@ def get_tscfreq_armlinux():
         data = l.split(" ")
         sub = data[0]
         if sub == "arch_timer":
-            print(data)
+            # print(data)
             if data[1] == "cp15":
                 Mhz = float(data[5][:-3])
     return Mhz
@@ -163,4 +163,4 @@ def main():
         #run(["mv -f result/* {}".format(foldername)], shell=True)
         #run(["mv -f {} result/{}".format(foldername, foldername)], shell=True)
 
-# main()
+main()
