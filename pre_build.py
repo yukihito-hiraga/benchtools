@@ -16,7 +16,8 @@ def compile_option(type):
         return "-O3 -Wno-psabi -Wno-unused-function -Wno-unused-result -funroll-all-loops -march=native -mcpu=native -DNDEBUG -Wno-stringop-overflow `gtk-config --cflags --libs`"
     return "-O3 -funroll-all-loops -march=native -DNDEBUG `pkg-config --cflags --libs glib-2.0` -Wno-psabi -Wno-unused-function -Wno-unused-result -Wno-stringop-overflow -Wno-implicit-function-declaration"
 
-def main():        
+def main():
+    gh = open(Path(__file__).parents[3]/"token").readline()      
     type = ""
     if detect()["cpu_type"] in ["AMD", "Intel"]:
         type = "x64"
@@ -27,7 +28,7 @@ def main():
     data = load(open("setting.yml"), Loader=Loader)
     impl_path = Path(data["impl"])
     if not (impl_path/"common").exists():
-        run(["git clone https://github.com/yukihito-hiraga/benchcommon.git"], shell=True, cwd = impl_path)
+        run(["git clone https://{gh}@github.com/yukihito-hiraga/benchcommon.git"], shell=True, cwd = impl_path)
         run(["mv benchcommon common"], shell=True, cwd=impl_path)
         
     lines = []
